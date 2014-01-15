@@ -41,7 +41,13 @@ boost::variant: 2.2
 Machine2 (Intel i5 3320M Linux Mint 15 x64)
 
 GCC 4.7.3 -02 -DNDEBUG (x64)
-virtual functions: 1.92
-vertical vtable: 2.08
-vtable: 2.18
-boost::variant: 0.15
+virtual functions: 1.4
+vertical vtable: 1.52
+vtable: 1.6
+boost::variant: 0.12
+
+clang 3.2.1 -O2 -DNDEBUG (x64)
+vertical vtable: 1.53
+vtable: 1.53
+virtual functions: 1.47
+boost::variant: 0

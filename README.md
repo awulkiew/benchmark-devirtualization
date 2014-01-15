@@ -6,6 +6,8 @@ http://channel9.msdn.com/Events/GoingNative/2013/Writing-Quick-Code-in-Cpp-Quick
 
 #### RESULTS
 
+([graphic representation](http://rawgithub.com/awulkiew/benchmark-devirtualization/master/results.html))
+
 ##### Machine 1 (Intel i7 870 Win7 SP1 x64)
 
 VS2010 /O2 /DNDEBUG (x86)

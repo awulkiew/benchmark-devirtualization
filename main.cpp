@@ -1,9 +1,34 @@
-
 #include <iostream>
 #include <fstream>
 #include <boost/timer.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/variant.hpp>
+
+// --------------------------------------------------
+
+class B
+{
+public:
+    virtual int get() = 0;
+    virtual void set(int i) = 0;
+    virtual void add() = 0;
+};
+
+template <boost::uint8_t Tag>
+class D : public B
+{
+public:
+    D(int i) : m_i(i) {}
+
+private:
+    int get() { return m_i; }
+    void set(int i) { m_i = i; }
+    void add() { m_i += Tag; }
+
+    int m_i;
+};
+
+// --------------------------------------------------
 
 class VB
 {
@@ -54,6 +79,8 @@ private:
 
     int m_i;
 };
+
+// --------------------------------------------------
 
 class VVB
 {
@@ -106,27 +133,7 @@ private:
     int m_i;
 };
 
-class B
-{
-public:
-    virtual int get() = 0;
-    virtual void set(int i) = 0;
-    virtual void add() = 0;
-};
-
-template <boost::uint8_t Tag>
-class D : public B
-{
-public:
-    D(int i) : m_i(i) {}
-
-private:
-    int get() { return m_i; }
-    void set(int i) { m_i = i; }
-    void add() { m_i += Tag; }
-
-    int m_i;
-};
+// --------------------------------------------------
 
 template <boost::uint8_t Tag>
 class A
@@ -162,54 +169,21 @@ struct add_visitor : public boost::static_visitor<>
     void operator()(T & t) const { t.add(); }
 };
 
+// --------------------------------------------------
+
 int main()
 {
-    static const unsigned long long N = 200000000;
+    unsigned long long N = 200000000;
+    int a = 1, b = 1;
 
     std::ifstream ifs("dummy");
-    int a = 1, b = 1;
-    ifs >> a;
-    ifs >> b;
+    ifs >> a; ifs >> b; ifs >> N;
+    std::ofstream ofs("dummy");
+    extern int dummy;
     
     {
-        VD<0> d1(a);
-        VD<1> d2(b);
-	    VB & b1 = d1;
-	    VB & b2 = d2;
-
-        int c = 0;
-        boost::timer t;
-        for ( unsigned long long i = 0 ; i < N ; ++i )
-        {
-            b1.add();
-            b2.add();
-            b1.set(b1.get() + b2.get());
-        }
-        double s = t.elapsed();
-        std::cout << "vertical vtable: " << s << " " << b1.get() << " " << b2.get() << std::endl;
-    }
-
-    {
-        VVD<0> d1(a);
-        VVD<1> d2(b);
-	    VVB & b1 = d1;
-	    VVB & b2 = d2;
-
-        int c = 0;
-        boost::timer t;
-        for ( unsigned long long i = 0 ; i < N ; ++i )
-        {
-            b1.add();
-            b2.add();
-            b1.set(b1.get() + b2.get());
-        }
-        double s = t.elapsed();
-        std::cout << "vtable: " << s << " " << b1.get() << " " << b2.get() << std::endl;
-    }
-
-    {
-	    D<0> d1(a);
-	    D<1> d2(b);
+        D<0> d1(a);
+        D<1> d2(b);
         B & b1 = d1;
         B & b2 = d2;
 
@@ -222,11 +196,53 @@ int main()
             b1.set(b1.get() + b2.get());
         }
         double s = t.elapsed();
-        std::cout << "virtual functions: " << s << " " << b1.get() << " " << b2.get() << std::endl;
+        std::cout << "virtual functions: " << s << std::endl;
+        dummy = b1.get() + b2.get();
+        ofs << dummy << std::endl;
+    }
+    
+    {
+        VD<0> d1(a);
+        VD<1> d2(b);
+	VB & b1 = d1;
+	VB & b2 = d2;
+
+        int c = 0;
+        boost::timer t;
+        for ( unsigned long long i = 0 ; i < N ; ++i )
+        {
+            b1.add();
+            b2.add();
+            b1.set(b1.get() + b2.get());
+        }
+        double s = t.elapsed();
+        std::cout << "vertical vtable: " << s << std::endl;
+        dummy = b1.get() + b2.get();
+        ofs << dummy << std::endl;
     }
 
     {
-	    AA b1 = A<0>(a);
+        VVD<0> d1(a);
+        VVD<1> d2(b);
+	VVB & b1 = d1;
+	VVB & b2 = d2;
+
+        int c = 0;
+        boost::timer t;
+        for ( unsigned long long i = 0 ; i < N ; ++i )
+        {
+            b1.add();
+            b2.add();
+            b1.set(b1.get() + b2.get());
+        }
+        double s = t.elapsed();
+        std::cout << "vtable: " << s << std::endl;
+        dummy = b1.get() + b2.get();
+        ofs << dummy << std::endl;
+    }
+
+    {
+	AA b1 = A<0>(a);
         AA b2 = A<1>(b);
 
         int c = 0;
@@ -241,8 +257,12 @@ int main()
             ), b1);
         }
         double s = t.elapsed();
-        std::cout << "boost::variant: " << s << " " << boost::apply_visitor(get_visitor(), b1) << " " << boost::apply_visitor(get_visitor(), b2) << std::endl;
+        std::cout << "boost::variant: " << s << std::endl;
+        dummy = boost::apply_visitor(get_visitor(), b1) + boost::apply_visitor(get_visitor(), b2);
+        ofs << dummy << std::endl;
     }
     
     return 0;
 }
+
+int dummy = 0;

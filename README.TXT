@@ -6,7 +6,7 @@ Inspired by "Writing Quick Code in C++, Quickly" by Andrei Alexandrescu
 
 RESULTS:
 
-Machine 1 (Intel i7 870 Win7)
+Machine 1 (Intel i7 870 Win7 SP1 x64)
 
 VS2010 /O2 /DNDEBUG (x86)
 virtual functions: 1.37
@@ -38,7 +38,7 @@ vertical vtable: 1.404
 vtable: 1.404
 boost::variant: 2.2
 
-Machine2 (Intel i5 Linux Mint)
+Machine2 (Intel i5 3320M Linux Mint 15 x64)
 
 GCC 4.7.3 -02 -DNDEBUG (x64)
 virtual functions: 1.92

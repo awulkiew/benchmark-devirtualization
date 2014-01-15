@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var arr = [
+          ['',                  'VS10x86', 'IC14x86', 'MinGW4.7x86', 'VS10x64', 'IC14x64', 'GCC4.7x64', 'clang3.2x64', 'average'],
+          ['virtual functions', 1.37,      1.372,     1.416,      1.437,     1.341,        1.4,         1.47,          0],
+          ['vertical vtable',   1.87,      1.872,     1.71,       1.52,      1.404,        1.52,        1.52,          0],
+          ['vtable',            1.88,      1.872,     1.789,      1.512,     1.404,        1.6,         1.6,           0],
+          ['boost::variant',    0.17,      0.172,     0.119,      2.359,     2.2,          0.12,        0,             0]
+        ];
+
+		for ( var col = 1 ; col < 5 ; ++col )
+		{
+		    var back_row = arr[col].length - 1;
+		    for ( var row = 1 ; row < back_row ; ++row )
+			{
+			    arr[col][back_row] += arr[col][row];
+			}
+			arr[col][back_row] /= back_row - 1;
+		}
+		
+		var data = google.visualization.arrayToDataTable(arr);
+		
+        var options = {
+          title: 'Deserialization',
+		  titleTextStyle: {fontSize: 28},
+		  hAxis: { title: 'seconds', titleTextStyle: {fontSize: 18} },
+		  colors: ['#ff00ff', '#0000ff', '#ff0000', '#880088', '#000088', '#880000', '#008800', '#ffee00'],
+		  seriesType: "bars",
+          series: {7: {type: "line"}}
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+
+  </head>
+
+  <body>
+<!--Div that will hold the pie chart-->
+    <div id="chart_div" style="width:800; height:600"></div>
+
+  </body>
+</html>

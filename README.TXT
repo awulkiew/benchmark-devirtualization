@@ -47,7 +47,7 @@ vtable: 1.6
 boost::variant: 0.12
 
 clang 3.2.1 -O2 -DNDEBUG (x64)
+virtual functions: 1.47
 vertical vtable: 1.53
 vtable: 1.53
-virtual functions: 1.47
 boost::variant: 0

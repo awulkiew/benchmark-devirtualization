@@ -20,6 +20,9 @@ Non-recursive calls
     vertical vtable   | 2.051   1.735  1.812    | 1.493   1.552
     vtable            | 2.061   1.776  1.897    | 1.535   1.594
     boost::variant    | 0.239   1.585  0.239    | 2.254   2.364
+    ------------------+-------------------------+---------------
+    fastest           | BV      VF     BV       | VF      VF
+    slowest           | V       V      V        | BV      BV
 
 Recursive calls
 
@@ -31,6 +34,9 @@ Recursive calls
     vertical vtable   | 1.700   1.506  1.360    | 1.154   1.178
     vtable            | 1.555   1.534  1.402    | 1.221   1.353
     boost::variant    | 1.914   2.443  2.625    | 2.107   2.024
+    ------------------+-------------------------+---------------
+    fastest           | VF      VF     VV       | VF      VV
+    slowest           | BV      BV     BV       | BV      BV
 
 ##### Machine2 (Intel i5 3320M Linux Mint 15 x64)
 
@@ -44,6 +50,9 @@ Non-recursive calls
     vertical vtable   |  1.66      1.72      |  1.53      1.54
     vtable            |  1.66      1.72      |  1.52      1.53
     boost::variant    |  0.12      0.00      |  0.12      0.00
+    ------------------+----------------------+----------------------
+    fastest           |  BV        BV        |  BV        BV
+    slowest           |  VF        VV/V      |  VV        VV
 
 Recursive calls
 
@@ -55,6 +64,10 @@ Recursive calls
     vertical vtable   |  1.32       1.34     |  0.75       0.75
     vtable            |  1.48       1.40     |  0.90       0.89
     boost::variant    |  2.20       1.76     |  2.21       1.04
+    ------------------+----------------------+----------------------
+    fastest           |  VF         VF/VV    |  VF         VF/VV
+    slowest           |  BV         BV       |  BV         BV
+    
 
 ##### Machine3 (Intel B960 Win8.1 x64)
 
@@ -68,6 +81,9 @@ Non-recursive calls
     vertical vtable   | 3.860   3.828  | 3.281   3.281
     vtable            | 3.781   3.751  | 3.281   3.188
     boost::variant    | 8.298   8.313  | 4.563   4.750
+    ------------------+----------------+----------------
+    fastest           | VF      VF     | VF/VV/V V
+    slowest           | BV      BV     | BV      BV
 
 Recursive calls
 
@@ -79,4 +95,6 @@ Recursive calls
     vertical vtable   | 3.062   2.406  | 2.282   2.516
     vtable            | 2.313   2.719  | 2.250   2.297
     boost::variant    | 8.375   8.657  | 3.109   3.344
-    
+    ------------------+----------------+----------------
+    fastest           | V       VF     | VF      VF
+    slowest           | BV      BV     | BV      BV

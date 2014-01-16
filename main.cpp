@@ -152,6 +152,21 @@ private:
 
 // --------------------------------------------------
 
+template <boost::uint8_t Tag>
+class A
+{
+public:
+    A(int i) : m_i(i) {}
+
+    int get() { return m_i; }
+    void set(int i) { m_i = i; }
+    void add() { m_i += Tag; }
+
+    int m_i;
+};
+
+typedef boost::variant< A<0>, A<1> > AA;
+
 struct get_visitor : public boost::static_visitor<int>
 {
     template <typename T>
@@ -169,33 +184,17 @@ struct add_visitor : public boost::static_visitor<>
     template <typename T>
     void operator()(T & t) const { t.add(); }
 };
-template <typename Variant>
 struct rec_visitor : public boost::static_visitor<int>
 {
-    rec_visitor(int i, Variant *v) : m_i(i), m_v(v) {}
+    rec_visitor(int i, AA *v) : m_i(i), m_v(v) {}
     int m_i;
-    Variant * m_v;
+    AA * m_v;
     template <typename T>
     int operator()(T & t) {
         int i = m_i;
         m_i = m_i - 1;
         return i <= 0 ? 1 : t.m_i * boost::apply_visitor(*this, *m_v); }
 };
-
-template <boost::uint8_t Tag>
-class A
-{
-public:
-    A(int i) : m_i(i) {}
-
-    int get() { return m_i; }
-    void set(int i) { m_i = i; }
-    void add() { m_i += Tag; }
-
-    int m_i;
-};
-
-typedef boost::variant< A<0>, A<1> > AA;
 
 // --------------------------------------------------
 
@@ -342,7 +341,7 @@ int main()
         boost::timer t;
         for ( unsigned long long i = 0 ; i < N2 ; ++i )
         {
-            rec_visitor<AA> v(10, &b);
+            rec_visitor v(10, &b);
             dummy += boost::apply_visitor(v, b);
         }
         double s = t.elapsed();

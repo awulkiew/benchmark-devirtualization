@@ -34,19 +34,27 @@ Recursive calls
 
 ##### Machine2 (Intel i5 3320M Linux Mint 15 x64)
 
-GCC 4.7.3 -02 -DNDEBUG (x64)
+Non-recursive calls
 
-    virtual functions: 1.4
-    vertical vtable: 1.52
-    vtable: 1.6
-    boost::variant: 0.12
+                      |          x64 
+    ------------------+----------------------
+                      | GCC4.7.3  clang3.2.1
+    ------------------+----------------------
+    virtual functions | 1.47      1.47
+    vertical vtable   | 1.53      1.54
+    vtable            | 1.52      1.53
+    boost::variant    | 0.12      0.00
 
-clang 3.2.1 -O2 -DNDEBUG (x64)
+Recursive calls
 
-    virtual functions: 1.47
-    vertical vtable: 1.53
-    vtable: 1.53
-    boost::variant: 0
+                      |          x64 
+    ------------------+----------------------
+                      | GCC4.7.3  clang3.2.1
+    ------------------+----------------------
+    virtual functions | 0.73      0.75
+    vertical vtable   | 0.75      0.75
+    vtable            | 0.90      0.89
+    boost::variant    | 2.21      1.04
 
 ##### Machine3 (Intel B960 Win8.1 x64)
 

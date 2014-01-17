@@ -204,9 +204,9 @@ int main()
     unsigned long long N2 = 50000000;
     int a = 1, b = 1;
 
-    std::ifstream ifs("dummy");
+    std::ifstream ifs("dummy1");
     ifs >> a; ifs >> b; ifs >> N;
-    std::ofstream ofs("dummy");
+    std::ofstream ofs("dummy2");
     extern int dummy;
     
     {

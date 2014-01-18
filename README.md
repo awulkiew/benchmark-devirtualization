@@ -77,13 +77,13 @@ Non-recursive calls
     ------------------+----------------+----------------
                       | VS2012  VS2013 | VS2012  VS2013
     ------------------+----------------+----------------
-    virtual functions | 3.140   3.015  | 3.281   3.203
-    vertical vtable   | 3.860   3.828  | 3.281   3.281
-    vtable            | 3.781   3.751  | 3.281   3.188
-    boost::variant    | 8.298   8.313  | 4.563   4.750
+    virtual functions | 1.921   1.844  | 1.688   1.656
+    vertical vtable   | 2.704   2.718  | 2.297   2.297
+    vtable            | 2.828   2.891  | 2.282   2.281
+    boost::variant    | 0.266   0.282  | 0.125   0.125
     ------------------+----------------+----------------
-    fastest           | VF      VF     | VF/VV/V V
-    slowest           | BV      BV     | BV      BV
+    fastest           | BV      BV     | BV      BV
+    slowest           | V       V      | VV      VV
 
 Recursive calls
 
@@ -91,10 +91,10 @@ Recursive calls
     ------------------+----------------+----------------
                       | VS2012  VS2013 | VS2012  VS2013
     ------------------+----------------+----------------
-    virtual functions | 2.328   2.328  | 2.031   2.000
-    vertical vtable   | 3.062   2.406  | 2.282   2.516
-    vtable            | 2.313   2.719  | 2.250   2.297
-    boost::variant    | 8.375   8.657  | 3.109   3.344
+    virtual functions | 1.828   1.750  | 1.547   1.797
+    vertical vtable   | 2.031   2.031  | 1.781   1.750
+    vtable            | 2.110   2.125  | 1.766   1.797
+    boost::variant    | 7.391   7.000  | 5.203   4.609
     ------------------+----------------+----------------
-    fastest           | V       VF     | VF      VF
+    fastest           | VF      VF     | VF      VV
     slowest           | BV      BV     | BV      BV

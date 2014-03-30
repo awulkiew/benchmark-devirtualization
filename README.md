@@ -4,6 +4,8 @@ Inspired by "Writing Quick Code in C++, Quickly" by Andrei Alexandrescu
 
 http://channel9.msdn.com/Events/GoingNative/2013/Writing-Quick-Code-in-Cpp-Quickly
 
+Tests were performed for non-recursive calls which can be inlined in the case of boost::variant and recursive calls to prevent inlining.
+
 #### RESULTS
 
 All builds with options -O2 -DNDEBUG
